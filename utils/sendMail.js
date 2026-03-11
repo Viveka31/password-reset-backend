@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer"
 
 const sendMail = async (email, link) => {
+    console.log("Preparing transporter")
 
     const transporter = nodemailer.createTransport({
 
@@ -12,6 +13,7 @@ const sendMail = async (email, link) => {
         }
 
     })
+     console.log("Sending email...")
 
     const mailOptions = {
 
@@ -28,6 +30,7 @@ const sendMail = async (email, link) => {
     }
 
     await transporter.sendMail(mailOptions)
+    console.log("Email sent successfully")
 
 }
 
