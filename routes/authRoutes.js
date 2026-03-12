@@ -31,7 +31,7 @@ router.post("/forgot-password", async (req,res)=>{
 
     res.json({
   message: "Reset link generated",
-  resetLink
+  link
 });
 })
 
