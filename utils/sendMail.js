@@ -4,16 +4,15 @@ const sendMail = async (email, link) => {
     console.log("Preparing transporter")
 
     const transporter = nodemailer.createTransport({
-
-        service:"gmail",
-
-        auth:{
-            user:process.env.EMAIL_USER,
-            pass:process.env.EMAIL_PASS
-        }
-
-    })
-     console.log("Sending email...")
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+     console.log("Sending email check")
 
     const mailOptions = {
 
@@ -30,7 +29,7 @@ const sendMail = async (email, link) => {
     }
 
     await transporter.sendMail(mailOptions)
-    console.log("Email sent successfully")
+    console.log("Email sent test")
 
 }
 
