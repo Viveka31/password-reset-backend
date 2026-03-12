@@ -29,7 +29,10 @@ router.post("/forgot-password", async (req,res)=>{
 
     await sendMail(email, link)
 
-    res.json({message:"Reset link sent"})
+    res.json({
+  message: "Reset link generated",
+  resetLink
+});
 })
 
 
