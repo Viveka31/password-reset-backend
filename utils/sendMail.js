@@ -1,37 +1,37 @@
 import nodemailer from "nodemailer";
+import dns from "dns";
 
 const sendMail = async (email, link) => {
 
-  console.log("Creating test account...");
-
-  const testAccount = await nodemailer.createTestAccount();
+  console.log("Preparing transporter");
 
   const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false,
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
-      user: testAccount.user,
-      pass: testAccount.pass
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    },
+    dnsLookup: (hostname, options, callback) => {
+      return dns.lookup(hostname, { family: 4 }, callback); // force IPv4
     }
   });
 
-  console.log("Sending email...");
+  console.log("Sending email check");
 
   const info = await transporter.sendMail({
-    from: '"Password Reset" <reset@example.com>',
+    from: process.env.EMAIL_USER,
     to: email,
     subject: "Password Reset Link",
     html: `
       <h3>Password Reset</h3>
-      <p>Click the link below to reset your password:</p>
+      <p>Click the link below</p>
       <a href="${link}">${link}</a>
     `
   });
 
-  console.log("Email sent");
-
-  console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
+  console.log("Email sent successfully", info.messageId);
 };
 
 export default sendMail;
