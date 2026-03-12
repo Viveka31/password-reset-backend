@@ -5,19 +5,18 @@ const sendMail = async (email, link) => {
   console.log("Preparing transporter");
 
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // IMPORTANT for port 587
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
+      user: process.env.MAILTRAP_USER,
+      pass: process.env.MAILTRAP_PASS
     }
   });
 
-  console.log("Sending email check");
+  console.log("Sending email");
 
   const info = await transporter.sendMail({
-    from: process.env.EMAIL_USER,
+    from: '"Password Reset" <reset@test.com>',
     to: email,
     subject: "Password Reset Link",
     html: `
@@ -27,7 +26,7 @@ const sendMail = async (email, link) => {
     `
   });
 
-  console.log("Email sent successfully", info.messageId);
+  console.log("Email sent:", info.messageId);
 };
 
 export default sendMail;
