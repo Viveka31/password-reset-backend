@@ -1,26 +1,36 @@
-import nodemailer from "nodemailer";
+import nodemailer from "nodemailer"
 
 const sendMail = async (email, link) => {
+    console.log("Preparing transporter")
 
-  const testAccount = await nodemailer.createTestAccount();
-
-  const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
+      const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, 
     auth: {
-      user: testAccount.user,
-      pass: testAccount.pass
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     }
   });
+     console.log("Sending email check")
 
-  const info = await transporter.sendMail({
-    from: '"Password Reset" <test@example.com>',
-    to: email,
-    subject: "Reset Password",
-    html: `<a href="${link}">${link}</a>`
-  });
+    const mailOptions = {
 
-  console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
-};
+        from:process.env.EMAIL_USER,
+        to:email,
+        subject:"Password Reset Link",
 
-export default sendMail;
+        html:`
+        <h3>Password Reset</h3>
+        <p>Click the link below</p>
+        <a href="${link}">${link}</a>
+        `
+
+    }
+
+    await transporter.sendMail(mailOptions)
+    console.log("Email sent test")
+
+}
+
+export default sendMail
