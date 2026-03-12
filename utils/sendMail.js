@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import dns from "dns";
 
 const sendMail = async (email, link) => {
 
@@ -7,14 +6,11 @@ const sendMail = async (email, link) => {
 
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false, // IMPORTANT for port 587
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
-    },
-    dnsLookup: (hostname, options, callback) => {
-      return dns.lookup(hostname, { family: 4 }, callback); // force IPv4
     }
   });
 
